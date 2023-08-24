@@ -64,6 +64,11 @@ async def generate_text(client, message):
     # Edit the original message with the generated text
     await message.edit_text(generated_text)
 
+
+@userbot.on_message(filters.command("ping", prefixes="."))
+async def start(client, message):
+    await message.edit_text("Pong!")
+
 # ------------------ Flask Routes ------------------
 
 @app.route("/")
