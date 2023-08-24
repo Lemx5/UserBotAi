@@ -11,7 +11,7 @@ Safe & Secure: All operations and data remain within your chosen hosting environ
 - Python 3.6 or higher
 - Telegram API Key
 - Google Cloud API Key
-- Pyrogram
+- Pyrogram session string
 
 #### Installation
 1. Clone the repository: `git clone https://github.com/irymee/PaLM-UserBot.git`
