@@ -17,8 +17,7 @@ Safe & Secure: All operations and data remain within your chosen hosting environ
 1. Clone the repository: `git clone https://github.com/irymee/PaLM-UserBot.git`
 2. Enter the directory: `cd PaLM-UserBot`
 3. Install the required dependencies: `pip3 install -r requirements.txt`
-4. Fill in the required values in `bot.py`
-5. Run the bot: `python3 bot.py`
+4. Run the bot: `python3 bot.py`
 
 #### Deployment in Render
 Push the repository containing the Dockerfile and render.yml to GitHub or GitLab.
@@ -26,9 +25,12 @@ Securely set your secrets (API_ID, API_HASH, SESSION_STRING, PALM_API_KEY) in th
 Link your repository to Render. It will recognize the render.yml and initiate the deployment.
 
 ### 💡 Usage
-1. Send a message beginning with a . (dot) to the bot.
+Send any message prefixed with a . to activate the bot. For instance:
 
 ```javascript
 .Hello
 ```
-2. Wait for the bot to respond with the generated text.
+The bot will then modify the message, showcasing the generated content based on the prompt "Hello".
+
+### 🤝 Contributions
+All contributions are welcome! Before proposing a significant change, kindly open an issue to discuss your ideas. Pull requests can be made directly to the main branch.
