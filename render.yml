@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: palm-bot
+    env: python
+    build:
+      dockerfile: Dockerfile
+    envVars:
+      - key: API_ID
+        fromSecret: api_id_secret
+      - key: API_HASH
+        fromSecret: api_hash_secret
+      - key: SESSION_STRING
+        fromSecret: session_string_secret
+      - key: PALM_API_KEY
+        fromSecret: palm_api_key_secret
+    healthCheckPath: /
+    port: 8080
