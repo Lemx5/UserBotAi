@@ -30,9 +30,9 @@ userbot = Client(
 app = Quart(__name__)
 
 # ------------------ Palm Generator ------------------
-async def palmgen(text):
+def palmgen(text):  # removed the async keyword since it's a synchronous function now
     try:
-        response = await palm.generate_text(
+        response = palm.generate_text(
             model='models/text-bison-001',
             prompt=text,
             temperature=0.7,
@@ -41,20 +41,21 @@ async def palmgen(text):
             top_p=0.95,
             max_output_tokens=1024,
         )
-        responses = await response.result()
-        return responses
+        return response.result
     except Exception as e:
         return f"Error generating text: {str(e)}"
+
 
 # ------------------ Bot Commands ------------------
 
 @userbot.on_message(filters.text & ~filters.bot & filters.me)
 async def generate_text(client, message):
+    
     if not message.text.startswith("."):
         return
 
     prompt_text = message.text[1:]
-    generated_text = await palmgen(prompt_text)
+    generated_text = palmgen(prompt_text)
     
     # Edit the original message with the generated text
     await message.edit_text(f"{generated_text}")
