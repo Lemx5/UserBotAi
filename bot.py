@@ -1,11 +1,11 @@
 import os
-import threading
+import asyncio
 import google.generativeai as palm
 from pyrogram import Client, filters
-from flask import Flask
+from quart import Quart
 import time
 
-start_time = time.time() 
+start_time = time.time()
 
 # ------------------ Configuration ------------------
 
@@ -26,13 +26,13 @@ userbot = Client(
     api_hash=API_HASH
 )
 
-# Flask App Initialization
-app = Flask(__name__)
+# Quart App Initialization
+app = Quart(__name__)
 
 # ------------------ Palm Generator ------------------
 async def palmgen(text):
     try:
-        response = palm.generate_text(
+        response = await palm.generate_text(
             model='models/text-bison-001',
             prompt=text,
             temperature=0.7,
@@ -49,24 +49,14 @@ async def palmgen(text):
 
 @userbot.on_message(filters.text & ~filters.bot & filters.me)
 async def generate_text(client, message):
-    # Check if the message starts with "."
     if not message.text.startswith("."):
         return
 
-    # Generate text based on the prompt
     prompt_text = message.text[1:]
     generated_text = await palmgen(prompt_text)
-
-    # Reply to the original message with the generated text
-    await message.reply_text(generated_text)
-
-@userbot.on_message(filters.command("ping") & filters.me)
-async def ping(client, message):
-    await message.reply("Pong!")
-
-@userbot.on_message(filters.command("start") & filters.me)
-async def start(client, message):
-    await message.reply("Welcome to PalmUserBot! Use /help for a list of commands.")
+    
+    # Edit the original message with the generated text
+    await message.edit_text(f"{generated_text}")
 
 @userbot.on_message(filters.command("stats") & filters.me)
 async def stats(client, message):
@@ -75,46 +65,28 @@ async def stats(client, message):
     minutes, seconds = divmod(remainder, 60)
     await message.reply(f"**Uptime:** {int(hours)}h {int(minutes)}m {int(seconds)}s")
 
-@userbot.on_message(filters.command("help") & filters.me)
-async def help_command(client, message):
-    help_text = """
-    **Commands:**
-    /start - Start the userbot.
-    /stats - Display bot uptime.
-    /help - This help message.
-    /echo - Echo back a message.
-    /id - Get the chat or a user's ID.
-    """
-    await message.reply(help_text)
-
-@userbot.on_message(filters.command("echo") & filters.me)
-async def echo(client, message):
-    if message.reply_to_message:
-        await message.reply(message.reply_to_message.text)
-    else:
-        await message.reply("Reply to a message to echo it.")
-
-@userbot.on_message(filters.command("id") & filters.me)
+@userbot.on_message(filters.command("id", prefixes=".") & filters.me)
 async def get_id(client, message):
     if message.reply_to_message:
         uid = message.reply_to_message.from_user.id
         await message.reply(f"User ID: {uid}")
     else:
         cid = message.chat.id
-        await message.reply(f"Chat ID: {cid}")    
+        await message.reply(f"Chat ID: {cid}")
 
-# ------------------ Flask Routes ------------------
+# ------------------ Quart Routes ------------------
 
 @app.route("/")
-def health_check():
+async def health_check():
     return "Health Check: OK!", 200
 
 # ------------------ Main Execution ------------------
 
-def run_flask_app():
-    app.run(host="0.0.0.0", port=8080)
+async def main():
+    quart_app = asyncio.create_task(app.run_task(host="0.0.0.0", port=8080))
+    pyrogram_bot = asyncio.create_task(userbot.start())
+    await quart_app
+    await pyrogram_bot
 
 if __name__ == "__main__":
-    t = threading.Thread(target=run_flask_app)
-    t.start()
-    userbot.run()
+    asyncio.run(main())
