@@ -31,7 +31,7 @@ userbot = Client(
 app = Quart(__name__)
 
 # ------------------ Palm Generator ------------------
-def palmgen(text):  # removed the async keyword since it's a synchronous function now
+def palmgen(text):
     try:
         response = palm.generate_text(
             model='models/text-bison-001',
