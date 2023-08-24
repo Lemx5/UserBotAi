@@ -4,98 +4,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bio Profile</title>
+    <title>Adriza</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         /* Resetting some default browser styles for better consistency */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body, h1, p {
             margin: 0;
             padding: 0;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%); /* Vibrant Gradient */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #4a4a4a; /* subtle color for text */
-            margin: 20px;
-            border: 5px solid #e5e9ec;
-            outline: 5px solid #b3c2cf;
+            color: #333;
+            overflow: hidden;
+        }
+
+        /* Neumorphism Effect */
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            z-index: -1;
+            background: inherit;
+            box-shadow: 
+                -15px -15px 30px rgba(255,255,255,0.5), 
+                15px 15px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 1em;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+                transform: translateY(0px);
+            }
+            50% {
+                box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+                transform: translateY(-20px);
+            }
+            100% {
+                box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+                transform: translateY(0px);
+            }
         }
 
         .profile-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            width: 85%;
-            max-width: 550px;
-            box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 50px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(0, 0, 0, 0.02);
             transition: transform 0.3s ease;
-        }
-
-        .profile-container:hover {
-            transform: scale(1.02); /* Gentle zoom on hover for an interactive effect */
+            animation: fadeInUp 0.8s forwards, float 3s infinite;
         }
 
         .avatar img {
-            width: 180px;
-            height: 180px;
-            border-radius: 90px; /* Fully round */
-            margin-bottom: 25px;
-            border: 4px solid #e5e9ec; /* Light border for the image */
-            box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.1); /* Subtle shadow around image */
+            width: 200px;
+            height: 200px;
+            border-radius: 100px; 
+            margin-bottom: 30px;
+            border: 6px solid #e5e9ec;
+            box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .avatar img:hover {
+            transform: scale(1.05);
         }
 
         h1 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            letter-spacing: -0.5px; /* Pulling letters slightly closer for a better visual effect */
+            font-weight: 600;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #2a2a2a;
+            letter-spacing: -0.8px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+            animation-delay: 0.3s;
         }
 
         p {
+            font-weight: 300;
             font-size: 1.1em;
-            line-height: 1.6;
-            max-width: 80%; /* not letting the text stretch too wide for readability */
-            margin: 0 auto;
+            line-height: 1.7;
+            max-width: 85%;
+            margin: 0 auto 30px auto;
+            color: #555;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+            animation-delay: 0.5s;
         }
 
         /* Social Icons Styles */
         .social-icons {
-            margin-top: 20px;
+            display: flex;
+            justify-content: center;
         }
 
         .social-icons a {
-            margin: 0 10px;
-            color: #777;
-            font-size: 20px;
-            transition: color 0.3s;
+            margin: 0 12px;
+            color: #8d8d8d;
+            font-size: 22px;
+            transition: all 0.3s;
+            transform: scale(0.95);
         }
 
         .social-icons a:hover {
-            color: #333;
+            transform: scale(1.05);
+            color: #2a2a2a;
         }
 
         /* Responsive styles */
         @media only screen and (max-width: 600px) {
             .profile-container {
-                width: 95%;
                 padding: 30px;
             }
 
             .avatar img {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 15px;
-                border: 3px solid #e5e9ec;
+                width: 140px;
+                height: 140px;
+                margin-bottom: 20px;
             }
 
             h1 {
-                font-size: 1.4em;
+                font-size: 1.5em;
             }
 
             p {
@@ -103,7 +162,7 @@
             }
 
             .social-icons a {
-                font-size: 18px;
+                font-size: 20px;
             }
         }
     </style>
@@ -115,11 +174,11 @@
             <img src="https://i.ibb.co/M16BXxK/adriza.jpg" alt="Adriza">
         </div>
         <h1>Adriza</h1>
-        <p>A Stupid Girl</p>
+        <p>Introducing my sister, Azriza: a charming 16-year-old with warmth that's matched only by her endearing cuteness. As her big brother, I'm consistently in awe of her delightful aura..</p>
         <div class="social-icons">
-            <a href="https://instagram.com/your_username" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://t.me/your_username" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
-            <a href="https://snapchat.com/add/your_username" target="_blank" title="Snapchat"><i class="fab fa-snapchat-ghost"></i></a>
+            <a href="https://instagram.com/instagram" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://t.me/iTeesTa" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://snapchat.com/add/snapchat" target="_blank" title="Snapchat"><i class="fab fa-snapchat-ghost"></i></a>
         </div>
     </section>
 </body>
