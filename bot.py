@@ -36,15 +36,8 @@ async def palmgen(text):
         'top_p': 0.95,
         'max_output_tokens': 1024,
         'stop_sequences': [],
-        'safety_settings': [
-            {"category": "HARM_CATEGORY_DEROGATORY", "threshold": 4},
-            {"category": "HARM_CATEGORY_TOXICITY", "threshold": 4},
-            {"category": "HARM_CATEGORY_VIOLENCE", "threshold": 4},
-            {"category": "HARM_CATEGORY_SEXUAL", "threshold": 4},
-            {"category": "HARM_CATEGORY_MEDICAL", "threshold": 4},
-            {"category": "HARM_CATEGORY_DANGEROUS", "threshold": 4}
-        ]
-    }
+        'safety_settings': [{"category":"HARM_CATEGORY_DEROGATORY","threshold":1},{"category":"HARM_CATEGORY_TOXICITY","threshold":1},{"category":"HARM_CATEGORY_VIOLENCE","threshold":2},{"category":"HARM_CATEGORY_SEXUAL","threshold":2},{"category":"HARM_CATEGORY_MEDICAL","threshold":2},{"category":"HARM_CATEGORY_DANGEROUS","threshold":2}],
+        }
 
     response = palm.generate_text(**defaults, prompt=text)
     return response.result
@@ -65,8 +58,8 @@ async def generate_text(client, message):
     await message.edit_text(generated_text)
 
 
-@userbot.on_message(filters.command("ping", prefixes=","))
-async def start(client, message):
+@userbot.on_message(filters.command("ping"))
+async def ping(client, message):
     await message.reply("Pong!")
 
 # ------------------ Flask Routes ------------------
