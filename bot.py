@@ -2,7 +2,7 @@ import os
 import asyncio
 import google.generativeai as palm
 from pyrogram import Client, filters
-from quart import Quart
+from quart import Quart, render_template_string
 import time
 from datetime import datetime
 
@@ -72,10 +72,9 @@ async def time(client, message):
 
     
 # ------------------ Quart Routes ------------------
-
-@app.route("/")
-async def health_check():
-    return "OK!", 200
+@app.route('/')
+async def profile():
+    return await render_template_string(open("index.html").read())
 
 # ------------------ Main Execution ------------------
 
