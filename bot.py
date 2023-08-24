@@ -4,6 +4,7 @@ import google.generativeai as palm
 from pyrogram import Client, filters
 from quart import Quart
 import time
+from datetime import datetime
 
 start_time = time.time()
 
@@ -60,27 +61,21 @@ async def generate_text(client, message):
     # Edit the original message with the generated text
     await message.edit_text(f"{generated_text}")
 
-@userbot.on_message(filters.command("stats") & filters.me)
-async def stats(client, message):
-    uptime = time.time() - start_time
-    hours, remainder = divmod(uptime, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    await message.reply(f"**Uptime:** {int(hours)}h {int(minutes)}m {int(seconds)}s")
+    if message.text == ".ping":
+        await message.edit_text(f"Pong! `{time.time() - start_time:.3f}` ms")
+        return    
 
-@userbot.on_message(filters.command("id", prefixes=".") & filters.me)
-async def get_id(client, message):
-    if message.reply_to_message:
-        uid = message.reply_to_message.from_user.id
-        await message.reply(f"User ID: {uid}")
-    else:
-        cid = message.chat.id
-        await message.reply(f"Chat ID: {cid}")
+@userbot.on_message(filters.command("time", prefixes="!") & filters.me)
+async def time(client, message):
+    now = datetime.datetime.now().strftime("Date: %d/%m/%Y\nTime: %H:%M:%S")
+    await message.edit(now)
 
+    
 # ------------------ Quart Routes ------------------
 
 @app.route("/")
 async def health_check():
-    return "Health Check: OK!", 200
+    return "OK!", 200
 
 # ------------------ Main Execution ------------------
 
