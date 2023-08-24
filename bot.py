@@ -17,6 +17,7 @@ palm.configure(api_key=PALM_API_KEY)
 
 # Pyrogram Client Configuration
 userbot = Client(
+    name="PalmUserBot"
     session_string=SESSION_STRING,
     api_id=API_ID,
     api_hash=API_HASH
