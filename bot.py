@@ -41,7 +41,8 @@ async def palmgen(text):
             top_p=0.95,
             max_output_tokens=1024,
         )
-        return response.result
+        responses = await response.result()
+        return responses
     except Exception as e:
         return f"Error generating text: {str(e)}"
 
