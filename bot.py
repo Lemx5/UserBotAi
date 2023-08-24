@@ -83,10 +83,11 @@ async def health_check():
 # ------------------ Main Execution ------------------
 
 async def main():
-    quart_app = asyncio.create_task(app.run_task(host="0.0.0.0", port=8080))
-    pyrogram_bot = asyncio.create_task(userbot.start())
-    await quart_app
-    await pyrogram_bot
+    await asyncio.gather(
+        app.run_task(host="0.0.0.0", port=8080),
+        userbot.start()
+    )
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
