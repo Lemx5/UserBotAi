@@ -5,6 +5,7 @@ from pyrogram import Client, filters
 from quart import Quart, render_template_string
 import time
 from datetime import datetime
+import random
 
 start_time = time.time()
 
@@ -74,7 +75,11 @@ async def time(client, message):
 # ------------------ Quart Routes ------------------
 @app.route('/')
 async def profile():
-    return await render_template_string(open("index.html").read())
+    random_number = random.random()
+    if random_number < 0.5:
+        return await render_template_string(open("index.html").read())
+    else:
+        return await render_template_string(open("index2.html").read())
 
 # ------------------ Main Execution ------------------
 
