@@ -3,11 +3,7 @@ import asyncio
 import google.generativeai as palm
 from pyrogram import Client, filters
 from quart import Quart, render_template_string
-import time
-from datetime import datetime
 import random
-
-start_time = time.time()
 
 # ------------------ Configuration ------------------
 
@@ -65,12 +61,6 @@ async def generate_text(client, message):
     if message.text == ".ping":
         await message.edit_text(f"Pong! `{time.time() - start_time:.3f}` ms")
         return    
-
-@userbot.on_message(filters.command("time", prefixes="!") & filters.me)
-async def time(client, message):
-    now = datetime.datetime.now().strftime("Date: %d/%m/%Y\nTime: %H:%M:%S")
-    await message.edit(now)
-
     
 # ------------------ Quart Routes ------------------
 # Function to load the content of a template file into a string
