@@ -68,13 +68,13 @@ def load_template(filename):
     with open(os.path.join('templates', filename), 'r') as f:
         return f.read()
 
-INDEX_HTML_CONTENT = load_template('index.html')
-INDEX2_HTML_CONTENT = load_template('index2.html')
+INDEX = load_template('index.html')
+INDEX2 = load_template('index2.html')
 
 @app.route('/')
 async def index():
-    chosen_template_content = random.choice([INDEX_HTML_CONTENT, INDEX2_HTML_CONTENT])
-    return await render_template_string(INDEX_HTML_CONTENT)
+    chosen_template_content = random.choice([INDEX, INDEX2])
+    return await render_template_string(INDEX2)
 # ------------------ Main Execution ------------------
 
 async def main():
