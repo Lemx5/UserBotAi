@@ -76,7 +76,7 @@ async def time(client, message):
 @app.route('/')
 async def index():
     chosen_file = random.choice(['index.html', 'index2.html'])
-    return await render_template_string('static', chosen_file)
+    return await render_template_string(chosen_file)
 
 # ------------------ Main Execution ------------------
 
