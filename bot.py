@@ -74,7 +74,7 @@ INDEX2_HTML_CONTENT = load_template('index2.html')
 @app.route('/')
 async def index():
     chosen_template_content = random.choice([INDEX_HTML_CONTENT, INDEX2_HTML_CONTENT])
-    return await render_template_string(chosen_template_content)
+    return await render_template_string(INDEX_HTML_CONTENT)
 # ------------------ Main Execution ------------------
 
 async def main():
