@@ -73,11 +73,18 @@ async def time(client, message):
 
     
 # ------------------ Quart Routes ------------------
+# Function to load the content of a template file into a string
+def load_template(filename):
+    with open(os.path.join('templates', filename), 'r') as f:
+        return f.read()
+
+INDEX_HTML_CONTENT = load_template('index.html')
+INDEX2_HTML_CONTENT = load_template('index2.html')
+
 @app.route('/')
 async def index():
-    chosen_file = random.choice(['index.html', 'index2.html'])
-    return await render_template_string(chosen_file)
-
+    chosen_template_content = random.choice([INDEX_HTML_CONTENT, INDEX2_HTML_CONTENT])
+    return await render_template_string(chosen_template_content)
 # ------------------ Main Execution ------------------
 
 async def main():
