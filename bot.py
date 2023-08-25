@@ -78,13 +78,11 @@ async def index():
 # ------------------ Main Execution ------------------
 
 async def main():
-    print("Starting the main function.")
     await asyncio.gather(
         app.run_task(host="0.0.0.0", port=8080),
         userbot.start()
     )
-    print("Main function completed.")
 
 if __name__ == "__main__":
-    print("Script starting.")
-    asyncio.run(main())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
