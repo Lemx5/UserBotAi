@@ -2,7 +2,7 @@ import os
 import asyncio
 import google.generativeai as palm
 from pyrogram import Client, filters
-from quart import Quart, render_template_string
+from quart import Quart, render_template_string, send_from_directory
 import time
 from datetime import datetime
 import random
@@ -74,12 +74,9 @@ async def time(client, message):
     
 # ------------------ Quart Routes ------------------
 @app.route('/')
-async def profile():
-    random_number = random.random()
-    if random_number < 0.5:
-        return await render_template_string(open("index.html").read())
-    else:
-        return await render_template_string(open("index2.html").read())
+async def index():
+    chosen_file = random.choice(['index.html', 'index2.html'])
+    return await send_from_directory('static', chosen_file)
 
 # ------------------ Main Execution ------------------
 
