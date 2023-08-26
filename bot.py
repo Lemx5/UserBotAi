@@ -63,18 +63,9 @@ async def generate_text(client, message):
         return    
     
 # ------------------ Quart Routes ------------------
-# Function to load the content of a template file into a string
-def load_template(filename):
-    with open(os.path.join('templates', filename), 'r') as f:
-        return f.read()
-
-INDEX = load_template('index.html')
-INDEX2 = load_template('index2.html')
-
 @app.route('/')
 async def index():
-    chosen_template_content = random.choice([INDEX, INDEX2])
-    return await render_template_string(INDEX2)
+    return await render_template_string(index.html)
 # ------------------ Main Execution ------------------
 
 async def main():
