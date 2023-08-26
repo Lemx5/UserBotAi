@@ -4,8 +4,6 @@ import google.generativeai as palm
 from pyrogram import Client, filters
 from quart import Quart, render_template
 import aiohttp
-import time
-
 # ------------------ Configuration ------------------
 
 # Environmental Variables
@@ -70,7 +68,11 @@ async def generate_text(client, message):
 async def index():
     return await render_template('profile.html')
 
-# ------------------ Ping Route ------------------ 
+@app.route('/status')
+async def health_check():
+    return {"status": "alive", "message": "Server is running"}
+
+# ------------------ Ping Route so it don't sleep ------------------ 
 
 async def ping_self():
     """Periodically ping itself to prevent sleeping."""
@@ -78,14 +80,16 @@ async def ping_self():
     while True:
         async with aiohttp.ClientSession() as session:
             try:
-                async with session.get("http://0.0.0.0:8080/") as response:
-                    if response.status == 200:
+                async with session.get("http://0.0.0.0:8080/status") as response:
+                    data = await response.json()  # Fetch the JSON response
+                    if response.status == 200 and data.get('status') == 'alive':
                         print("Ping successful!")
                     else:
                         print(f"Ping failed with status: {response.status}")
             except Exception as e:
                 print(f"Ping error: {e}")
             await asyncio.sleep(300)  # ping every 5 minutes
+
 
 # ------------------ Main Execution ------------------
 
