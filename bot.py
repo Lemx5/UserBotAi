@@ -3,7 +3,8 @@ import asyncio
 import google.generativeai as palm
 from pyrogram import Client, filters
 from quart import Quart, render_template
-import random
+import aiohttp
+import time
 
 # ------------------ Configuration ------------------
 
@@ -59,16 +60,39 @@ async def generate_text(client, message):
     await message.edit_text(f"{generated_text}")
 
     if message.text == ".ping":
-        await message.edit_text(f"Pong! `{time.time() - start_time:.3f}` ms")
+        await message.edit_text(f"Pong!")
         return    
     
+       
 # ------------------ Quart Routes ------------------
+
 @app.route('/')
 async def index():
     return await render_template('profile.html')
+
+# ------------------ Ping Route ------------------ 
+
+async def ping_self():
+    """Periodically ping itself to prevent sleeping."""
+    await asyncio.sleep(10)  # initial sleep for 10 seconds
+    while True:
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.get("http://0.0.0.0:8080/") as response:
+                    if response.status == 200:
+                        print("Ping successful!")
+                    else:
+                        print(f"Ping failed with status: {response.status}")
+            except Exception as e:
+                print(f"Ping error: {e}")
+            await asyncio.sleep(300)  # ping every 5 minutes
+
 # ------------------ Main Execution ------------------
 
 async def main():
+    # Start the ping task in the background
+    asyncio.create_task(ping_self())
+    
     await asyncio.gather(
         app.run_task(host="0.0.0.0", port=8080),
         userbot.start()

@@ -2,3 +2,4 @@ pyrogram
 tgcrypto
 quart
 google-generativeai
+aiohttp
