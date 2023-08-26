@@ -65,7 +65,7 @@ async def generate_text(client, message):
 # ------------------ Quart Routes ------------------
 @app.route('/')
 async def index():
-    return await render_template_string(index.html)
+    return await render_template_string(profile.html)
 # ------------------ Main Execution ------------------
 
 async def main():
