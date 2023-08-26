@@ -2,7 +2,7 @@ import os
 import asyncio
 import google.generativeai as palm
 from pyrogram import Client, filters
-from quart import Quart, render_template_string
+from quart import Quart, render_template
 import random
 
 # ------------------ Configuration ------------------
