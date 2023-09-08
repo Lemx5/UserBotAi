@@ -50,11 +50,12 @@ def palmgen(text):
 
 # ------------------ OpenAI Generator ------------------
 def openaigen(text):
+    messages = [{"role": "assistant", "content": text}]
     try:
         MODEL = "gpt-3.5-turbo"    # gpt-3.5-turbo model
         resp = ChatCompletion.create(
             model=MODEL,
-            messages=text,
+            messages=messages,
             temperature=0.2,
         )
         rep = resp['choices'][0]["message"]["content"]
@@ -77,7 +78,7 @@ async def generate_text(client, message):
     prompt_text = message.text[1:]
     
     # Call the selected generation function
-    generated_text = generation_function(f"{prompt_text}")
+    generated_text = generation_function(prompt_text)
     
     # Edit the original message with the generated text
     await message.edit_text(f"{generated_text}")
