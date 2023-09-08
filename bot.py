@@ -68,7 +68,7 @@ def openaigen(text):
 async def generate_text(client, message):
     if message.text.startswith("."):  # If the message starts with a dot, use palmgen
         generation_function = palmgen
-    elif message.text.startswith("!"):  # If the message starts with an exclamation mark, use openaigen
+    elif message.text.startswith(","):  # If the message starts with an exclamation mark, use openaigen
         generation_function = openaigen
     else:
         return  # If the message doesn't start with "." or "!", do nothing
@@ -77,7 +77,7 @@ async def generate_text(client, message):
     prompt_text = message.text[1:]
     
     # Call the selected generation function
-    generated_text = generation_function(prompt_text)
+    generated_text = generation_function(f"{prompt_text}")
     
     # Edit the original message with the generated text
     await message.edit_text(f"{generated_text}")
