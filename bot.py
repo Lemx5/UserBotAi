@@ -4,6 +4,8 @@ import google.generativeai as palm
 from pyrogram import Client, filters
 from quart import Quart, render_template
 import aiohttp
+import openai
+from openai.api_resources import ChatCompletion
 # ------------------ Configuration ------------------
 
 # Environmental Variables
@@ -11,9 +13,13 @@ API_ID = os.environ.get("API_ID")
 API_HASH = os.environ.get("API_HASH")
 SESSION_STRING = os.environ.get("SESSION_STRING")
 PALM_API_KEY = os.environ.get("PALM_API_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
 
 # Palm Client Configuration
 palm.configure(api_key=PALM_API_KEY)
+# openai api key
+openai.api_key = OPENAI_API_KEY
 
 # Pyrogram Client Configuration
 userbot = Client(
@@ -42,25 +48,39 @@ def palmgen(text):
     except Exception as e:
         return f"Error generating text: {str(e)}"
 
+# ------------------ OpenAI Generator ------------------
+def openaigen(text):
+    try:
+        MODEL = "gpt-3.5-turbo"    # gpt-3.5-turbo model
+        resp = ChatCompletion.create(
+            model=MODEL,
+            messages=text,
+            temperature=0.2,
+        )
+        rep = resp['choices'][0]["message"]["content"]
+        return rep
+    except Exception as e:
+        return f"Error generating text: {str(e)}"
+    
 
-# ------------------ Bot Commands ------------------
-
+# Bot command to switch between generation functions
 @userbot.on_message(filters.text & ~filters.bot & filters.me)
 async def generate_text(client, message):
+    if message.text.startswith("."):  # If the message starts with a dot, use palmgen
+        generation_function = palmgen
+    elif message.text.startswith("!"):  # If the message starts with an exclamation mark, use openaigen
+        generation_function = openaigen
+    else:
+        return  # If the message doesn't start with "." or "!", do nothing
     
-    if not message.text.startswith("."):
-        return
-
+    # Extract the prompt text (remove the first character)
     prompt_text = message.text[1:]
-    generated_text = palmgen(prompt_text)
+    
+    # Call the selected generation function
+    generated_text = generation_function(prompt_text)
     
     # Edit the original message with the generated text
     await message.edit_text(f"{generated_text}")
-
-    if message.text == ".ping":
-        await message.edit_text(f"Pong!")
-        return    
-    
        
 # ------------------ Quart Routes ------------------
 

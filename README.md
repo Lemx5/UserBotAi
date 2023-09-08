@@ -1,5 +1,5 @@
 # PALM Telegram Bot 🤖
-#### A Telegram user bot powered by Google's PALM generativeai to instantly transform prompts into expansive text.
+#### A Telegram user bot powered by Google's PALM generativeai and OpenAi to instantly transform prompts into expansive text.
 
 ### 🌟 Features
 Instant Response: Automatically listens to messages beginning with a . (dot).
@@ -11,6 +11,7 @@ Safe & Secure: All operations and data remain within your chosen hosting environ
 - Python 3.6 or higher
 - Telegram API Key
 - Google Cloud API Key
+- OpenAI API Key
 - Pyrogram session string
 
 #### Installation
