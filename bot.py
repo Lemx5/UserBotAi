@@ -14,6 +14,7 @@ API_HASH = os.environ.get("API_HASH")
 SESSION_STRING = os.environ.get("SESSION_STRING")
 PALM_API_KEY = os.environ.get("PALM_API_KEY")
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+APP_URL = os.environ.get("APP_URL")
 
 
 # Palm Client Configuration
@@ -101,7 +102,7 @@ async def ping_self():
     while True:
         async with aiohttp.ClientSession() as session:
             try:
-                async with session.get("http://0.0.0.0:8080/status") as response:
+                async with session.get(APP_URL) as response:
                     data = await response.json()  # Fetch the JSON response
                     if response.status == 200 and data.get('status') == 'alive':
                         print("Ping successful!")
