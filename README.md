@@ -10,7 +10,7 @@ Safe & Secure: All operations and data remain within your chosen hosting environ
 #### Requirements
 - Python 3.6 or higher
 - Telegram API Key
-- Google Cloud API Key
+- Google Palm 2 API Key
 - OpenAI API Key
 - Pyrogram session string
 
