@@ -1,4 +1,4 @@
-# PALM Telegram Bot 🤖
+# Ai Telegram UserBot 🤖
 #### A Telegram user bot powered by Google's PALM generativeai and OpenAi to instantly transform prompts into expansive text.
 
 ### 🌟 Features
