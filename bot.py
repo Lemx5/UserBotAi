@@ -85,14 +85,9 @@ async def generate_text(client, message):
     await message.edit_text(f"{generated_text}")
        
 # ------------------ Quart Routes ------------------
-
 @app.route('/')
-async def index():
-    return await render_template('profile.html')
-
-@app.route('/status')
 async def health_check():
-    return {"status": "alive", "message": "Server is running"}
+    return {"status": "bot is running"}
 
 # ------------------ Ping Route so it don't sleep ------------------ 
 
